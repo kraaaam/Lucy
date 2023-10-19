@@ -1,8 +1,4 @@
 # Lucy
-A microservice project that will follow the SAGA pattern
-
-
-### Lucy
 Lucy is a microservice project that follows the SAGA pattern. The project is designed to handle complex transactions across multiple services in a distributed system. The SAGA pattern is used to ensure that transactions are completed or rolled back in case of failures.
 
 #### Getting Started
