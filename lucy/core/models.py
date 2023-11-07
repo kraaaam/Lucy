@@ -23,3 +23,13 @@ class BaseModel(models.Model):
 
 class User(BaseModel, AbstractUser):
     objects = UserManager()
+
+
+class TelegramChannel(BaseModel):
+    slug = models.CharField(
+        default=uuid.uuid4, max_length=40, editable=False, db_index=True
+    )
+    name = models.CharField(max_length=255, null=True, blank=True)
+    token = models.CharField(max_length=255)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    is_active = models.BooleanField(default=True)
