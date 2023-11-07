@@ -45,9 +45,10 @@ DJANGO_APPS = [
 ]
 
 THIRD_PARTY_APPS = [
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
+    "django_celery_results",
     "rest_framework",
 ]
 
@@ -65,7 +66,6 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-
     "allauth.account.middleware.AccountMiddleware",
 ]
 
@@ -143,10 +143,33 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-#https://docs.allauth.org/en/latest/installation/quickstart.html
+# https://docs.allauth.org/en/latest/installation/quickstart.html
 AUTHENTICATION_BACKENDS = [
     # Needed to login by username in Django admin, regardless of `allauth`
-    'django.contrib.auth.backends.ModelBackend',
+    "django.contrib.auth.backends.ModelBackend",
     # `allauth` specific authentication methods, such as login by email
-    'allauth.account.auth_backends.AuthenticationBackend',
+    "allauth.account.auth_backends.AuthenticationBaCELERY_BROKER_URLckend",
 ]
+
+# Celery broker
+# https://docs.celeryq.dev/en/stable/userguide/configuration.html#std-setting-imports
+
+CELERY_BROKER_URL = env("CELERY_BROKER_URL", default="redis://redis:6379/0")
+
+CELERY_RESULT_BACKEND = "django-db"
+
+CELERY_RESULT_EXTENDED = True
+
+CELERY_QUEUES = {
+    "default": {
+        "exchange": "default",
+        "binding_key": "default",
+    },
+    "instant": {
+        "exchange": "instant",
+        "binding_key": "instant",
+    },
+}
+
+CELERY_TASK_DEFAULT_QUEUE = "default"
+CELERY_CACHE_BACKEND = "default"
