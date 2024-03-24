@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
-from .models import User, TelegramChannel
+from .models import User, TelegramChannel, TelegramSubscriber
 
 # Register your models here.
 @admin.register(User)
@@ -18,4 +18,14 @@ class TelegramChannelAdmin(admin.ModelAdmin):
         "token",
         "user",
         "is_active",
+    )
+
+
+@admin.register(TelegramSubscriber)
+class TelegramSubscriberAdmin(admin.ModelAdmin):
+    list_display = (
+        "id",
+        "chat_id",
+        "username",
+        "first_name",
     )
