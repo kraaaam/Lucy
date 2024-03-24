@@ -2,7 +2,7 @@ from celery import shared_task
 from django.conf import settings
 
 
-from .services import telegram
+from .channels import telegram
 from .models import TelegramChannel as TelegramChannelModel
 
 

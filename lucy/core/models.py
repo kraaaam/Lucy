@@ -33,3 +33,9 @@ class TelegramChannel(BaseModel):
     token = models.CharField(max_length=255)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     is_active = models.BooleanField(default=True)
+
+
+class TelegramSubscriber(BaseModel):
+    chat_id = models.CharField(max_length=255, blank=True, null=True)
+    username = models.CharField(max_length=255, blank=True, null=True)
+    first_name = models.CharField(max_length=255, blank=True, null=True)

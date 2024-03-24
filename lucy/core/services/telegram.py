@@ -1,36 +1,10 @@
-import logging
+from asgiref.sync import sync_to_async
 
-import asyncio
-import telegram
-
-from telegram import Update
-from telegram.ext import ApplicationBuilder, ContextTypes, CommandHandler
-
-from .base import BaseChannel
+from ..models import TelegramSubscriber
 
 
-logging.basicConfig(
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO
-)
-
-
-class TelegramChannel(BaseChannel):
-    def __init__(self, token: str):
-        self.token = token
-        self.application = ApplicationBuilder().token(self.token).build()
-        # return application
-
-    def send_message(self, message: str):
-        raise NotImplementedError
-
-    async def _start(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
-        user = update.effective_user
-        await context.bot.send_message(
-            chat_id=update.effective_chat.id,
-            text=f"Hello {user.first_name}. I'm a bot, please talk to me!",
-        )
-
-    def start(self):
-        start_handler = CommandHandler("start", self._start)
-        self.application.add_handler(start_handler)
-        self.application.run_polling()
+@sync_to_async
+def create_telegram_subscriber(*, chat_id: str, username: str, first_name: str):
+    return TelegramSubscriber.objects.get_or_create(
+        chat_id=chat_id, defaults={"username": username, "first_name": first_name}
+    )
